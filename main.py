@@ -273,6 +273,8 @@ def getTrips():
         return jsonify({"action": "errorData"})
 
 
+
+
 @app.route('/gettrips/trips/Trips', methods=['POST'])
 def TripsDrivers():
     """route for get  suitable trips"""
@@ -415,6 +417,17 @@ def getAllUsers():
         ##print(traceback.format_exc())
         return jsonify({"action": "errorData"})
 
+
+@app.route('/admin/gettrips/trips_agreed', methods=['GET'])
+def get_trips_by_direction():
+    try:
+        data = SelectAllDataForAdmin("trips")
+        if len(data) == 0:
+            return jsonify({"action": "errorData", "status": "SelectAllDataForAdmin"})
+        filtered_users = [user for user in data if user.get('status') == 'agreed']
+        return jsonify({"action": "success", "data": filtered_users})
+    except Exception as e:
+        return jsonify({"action": "errorData"})
 
 
 if __name__ == '__main__':
